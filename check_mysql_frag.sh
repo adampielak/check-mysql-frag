@@ -35,10 +35,10 @@ for DB in $DBS_INFO; do
          SQL="${SQL} WHERE table_schema='${DB}' AND table_name='${TB}'"
          TBLSIZE_OPER=$(ls -l /var/lib/mysql/${DB}/${TB}.ibd | awk '{print$5}')
          TBLSIZE_INFO=$(mysql ${MYSQL_CONN} -ANe"${SQL}")
-	      TBLSIZE_GB=$(bc -l <<< " $TBLSIZE_INFO / 1073741824 ")
+         TBLSIZE_GB=$(bc -l <<< " $TBLSIZE_INFO / 1073741824 ")
          TBLSIZE_FRAG=$(bc -l <<< " $TBLSIZE_OPER - $TBLSIZE_INFO ")
          TBLSIZE_FRAG_GB=$(bc -l <<< " $TBLSIZE_FRAG / 1073741824 ")
-	      TBLSIZE_DIFF_PERC=$(bc -l <<< " ( $TBLSIZE_FRAG / $TBLSIZE_INFO ) * 100 ")
+         TBLSIZE_DIFF_PERC=$(bc -l <<< " ( $TBLSIZE_FRAG / $TBLSIZE_INFO ) * 100 ")
          if [[ $(bc -l <<< "$TBLSIZE_FRAG_GB < 1") == 0 ]]; then
             if [[ $tbl_loop == 0 ]]; then
                printf "Database: $DB\n"
@@ -47,8 +47,8 @@ for DB in $DBS_INFO; do
             printf -- "    Actual size:   %.2f GB\n" "$TBLSIZE_GB"
             printf -- "    Fragmentation: %.2f GB\n" "$TBLSIZE_FRAG_GB"
             printf -- "    Percentage:    %.2f %%\n" "$TBLSIZE_DIFF_PERC"
-	         ((tbl_loop+=1))
-	      fi
+            ((tbl_loop+=1))
+         fi
       done
    fi
 done
